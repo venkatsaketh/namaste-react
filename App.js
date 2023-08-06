@@ -1,38 +1,57 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-// const heading =  React.createElement("h1",{id:"heading"},"Hello World from React!");
-
-// const parent = React.createElement(
-//     "div", { id: "parent" },
-//     React.createElement(
-//         "div", { id: "child" },
-//         [React.createElement("h1", {}, "Im h1"), React.createElement("h2", {}, "Iam h2")]
-//     ))
-
-//JSX- Babel(JS compiler) converts JSX to react element
-const jsxHeading = (
-  <div>
-    <h1>namaste react using jsx 🚀</h1>
-  </div>
-);
-
-const Title = () => (
-    <div>
-      <h1>namaste react using jsx 🔥</h1>
+const Header = () => {
+  return <div className="header">
+      <div className="logo-container">
+        <img className="logo" src="https://www.logodesign.net/logo/smoking-burger-with-lettuce-3624ld.png"/>
+      </div>
+      <div className="nav-items">
+          <ul>
+            <li>Home</li>
+            <li>About Us</li>
+            <li>Contact Us</li>
+            <li>Cart</li>  
+          </ul>
+      </div>
     </div>
-  );
-const number = 1000;
-//React functional component
-const HeadingComponent = () => (
-  <div>
-    {jsxHeading}{/* jsx element */}
-    <Title/>
-    <h1>React function component {number}</h1>
-    <h3>{100 + 200}</h3>
-  </div>
-);
+  
+}
+
+const RestaurantCard = ({resName,cuisine}) => {
+  return (
+    <div className="res-card" style={{ backgroundColor: "#f0f0f0" }}>
+      <img
+      className="res-logo"
+      src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/56c9ab92bd79745fd152a30fa2525426"
+      />
+      <h3>{resName}</h3>
+      <h4>{cuisine}</h4>
+      <h4>4.4 star</h4>
+      <h4>38 mins</h4>
+    </div>
+  )
+};
+const Body = () => {
+  return (
+    <div className="body">
+        <div className="Search">Search</div>
+        <div className="res-container">
+             <RestaurantCard resName="Meghana" cuisine="Biryani"/>
+             <RestaurantCard resName="KFC" cuisine="Burger"/>
+        </div>
+    </div>
+  )
+}
+const AppLayout = () => {
+  return (
+    <div className="app">
+       <Header/>
+       <Body/>
+    </div>
+  )
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-root.render(<HeadingComponent />);
+root.render(<AppLayout />);
