@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
+import { useRef } from "react";
 import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
 const Header = () => {
   const [btnName, setBtn] = useState("Login");
+  const didMount = useRef(false);
 
   useEffect(() => {
-    console.log("UseEffect Header");
+    if (didMount.current) console.log("UseEffect Header");
+    else didMount.current = true;
   }, [btnName]);
 
   return (
