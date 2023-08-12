@@ -1,6 +1,7 @@
 import RestaurantCard from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
@@ -49,10 +50,13 @@ const Body = () => {
           <button
             className="filter-btn"
             onClick={() => {
+              if (!searchText) {
+                alert("enter a text");
+                return;
+              }
               const filtered = listOfRestaurants.filter((res) =>
                 res.info.name.toLowerCase().includes(searchText)
               );
-
               setFilteredRes(filtered);
             }}
           >
@@ -66,7 +70,9 @@ const Body = () => {
       <div className="res-container">
         {filteredRes?.map((restaurant) => {
           return (
-            <RestaurantCard index={restaurant.info.id} resData={restaurant} />
+            <Link to={"/restaurants/" + restaurant.info.id}>
+              <RestaurantCard index={restaurant.info.id} resData={restaurant} />
+            </Link>
           );
         })}
       </div>
