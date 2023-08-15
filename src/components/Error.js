@@ -5,7 +5,7 @@ const Error = () => {
   return (
     <div>
       <h1>Error Page</h1>
-      <h2>{err.error.message}</h2>
+      <h2>{err?.error?.message}</h2>
     </div>
   );
 };
