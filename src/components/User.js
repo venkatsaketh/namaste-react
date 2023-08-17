@@ -32,11 +32,16 @@ class User extends React.Component {
     const { name, location, avatar_url, bio } = this.state.userInfo;
 
     return (
-      <div className="user-card">
-        <img height="100px" width="100px" src={avatar_url} />
-        <h2>Name: {name}</h2>
-        <h3>Location: {location}</h3>
-        <h4>Bio: {bio}</h4>
+      <div className="m-4 p-4 border w-[270px] bg-blue-300 rounded-md border-solid border-black">
+        <img
+          className="mb-5 rounded-xl"
+          height="100px"
+          width="100px"
+          src={avatar_url}
+        />
+        <h2 className="mb-2">Name: {name}</h2>
+        <h3 className="mb-2">Location: {location}</h3>
+        <h4 className="mb-2">Bio: {bio}</h4>
       </div>
     );
   }

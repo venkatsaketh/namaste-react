@@ -13,12 +13,16 @@ const Body = () => {
   }, []);
 
   const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=15.839509134536227&lng=78.01685102283955&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING",
-      {}
-    );
-
-    const json = await data.json();
+    let data, json;
+    try {
+      data = await fetch(
+        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=15.839509134536227&lng=78.01685102283955&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING",
+        {}
+      );
+      json = await data.json();
+    } catch (e) {
+      console.log(e.message);
+    }
     setListOfRestaurants(
       json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
@@ -39,20 +43,24 @@ const Body = () => {
     setFilteredRes(x);
   }
 
+  function allRes() {
+    setFilteredRes(listOfRestaurants);
+  }
+
   return (!listOfRestaurants || listOfRestaurants.length) === 0 ? (
     <Shimmer />
   ) : (
     <div className="body">
-      <div className="filter">
-        <div className="Search">
+      <div className="flex">
+        <div className="Search m-4 p-4">
           <input
             type="text"
-            className="search-box"
+            className="px-3 py-1 rounded-md border border-solid border-black"
             value={searchText}
             onChange={Search}
           />
           <button
-            className="filter-btn"
+            className="px-4 py-1 mx-4 bg-green-200 rounded-lg"
             onClick={() => {
               if (!searchText) {
                 alert("enter a text");
@@ -66,12 +74,21 @@ const Body = () => {
           >
             Search
           </button>
+          <button
+            className="px-4 py-1 mx-4 bg-gray-400 rounded-lg"
+            onClick={topRes}
+          >
+            Top Rated Restaurants
+          </button>
+          <button
+            className="px-4 py-1 mx-4 bg-gray-400 rounded-lg"
+            onClick={allRes}
+          >
+            All Restaurants
+          </button>
         </div>
-        <button className="filter-btn" onClick={topRes}>
-          Top Rated Restaurants
-        </button>
       </div>
-      <div className="res-container">
+      <div className="flex flex-wrap">
         {filteredRes?.map((restaurant) => {
           return (
             <Link to={"/restaurants/" + restaurant.info.id}>
