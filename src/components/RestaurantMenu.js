@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantCategory from "./RestaurantCategory";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
   const resData = useRestaurantMenu(resId);
-
+  const [showIndex, setShowIndex] = useState();
   if (!resData || resData.length === 0)
     return (
       <div>
@@ -15,23 +16,31 @@ const RestaurantMenu = () => {
   const { name, cuisines } = resData?.data?.cards[0]?.card?.card?.info;
 
   const { itemCards } =
-    resData?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[3]?.card
+    resData?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card
       ?.card;
+
+  const categories =
+    resData?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (c) =>
+        c.card?.card?.["@type"] ==
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
   return (
-    <div className="menu m-4">
-      <h1 className="text-2xl font-bold mb-6">{name}</h1>
-      <h4 className="font-semibold mb-3">{`cuisines - ${cuisines.join(
+    <div className="text-center">
+      <h1 className="text-2xl font-bold my-6">{name}</h1>
+      <h4 className="font-semibold text-lg mb-3">{`cuisines - ${cuisines.join(
         ", "
       )}`}</h4>
-      <h2 className="font-extrabold mb-3">Menu</h2>
-      <ul>
-        {itemCards?.map((item) => (
-          <li>
-            {item.card.info.name} {"->"} {"Rs- "}
-            {item.card.info.price / 100}
-          </li>
-        ))}
-      </ul>
+      {/*categories accordion */}
+      {categories.map((category, index) => (
+        <RestaurantCategory
+          key={category?.card?.card.title}
+          data={category?.card?.card}
+          setIndex={(ind) => setShowIndex(ind)}
+          index={index}
+          showItems={index === showIndex ? true : false}
+        />
+      ))}
     </div>
   );
 };

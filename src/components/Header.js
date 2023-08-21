@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
-import { useRef } from "react";
+import { useRef, useContext } from "react";
 import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Header = () => {
   const [btnName, setBtn] = useState("Login");
   const didMount = useRef(false);
+
+  const { loggedInUser } = useContext(UserContext);
 
   useEffect(() => {
     if (didMount.current) console.log("UseEffect Header");
@@ -42,6 +45,7 @@ const Header = () => {
               {btnName}
             </button>
           </li>
+          <li className="font-bold px-4">{loggedInUser}</li>
         </ul>
       </div>
     </div>
