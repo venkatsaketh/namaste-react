@@ -4,13 +4,15 @@ import { LOGO_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [btnName, setBtn] = useState("Login");
   const didMount = useRef(false);
 
   const { loggedInUser } = useContext(UserContext);
-
+  const cartItems = useSelector((store) => store.cart.items);
+  console.log(cartItems);
   useEffect(() => {
     if (didMount.current) console.log("UseEffect Header");
     else didMount.current = true;
@@ -33,7 +35,9 @@ const Header = () => {
           <li className="px-4">
             <Link to="/contact">Contact Us</Link>
           </li>
-          <li className="px-4">Cart</li>
+          <li className="px-4 font-bold">
+            <Link to="/cart">Cart ({cartItems?.length})</Link>
+          </li>
           <li className="px-4">
             <button
               className="login"
